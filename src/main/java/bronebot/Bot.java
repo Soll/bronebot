@@ -1,12 +1,14 @@
 package bronebot;
 
+import bronebot.command.StartCommand;
 import lombok.Getter;
-import lombok.SneakyThrows;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class Bot extends TelegramLongPollingBot {
+import java.util.HashMap;
+import java.util.List;
+
+public class Bot extends TelegramLongPollingCommandBot {
 
     private final String BOT_NAME;
     private final String BOT_TOKEN;
@@ -15,10 +17,16 @@ public class Bot extends TelegramLongPollingBot {
         super();
         this.BOT_NAME = botName;
         this.BOT_TOKEN = botToken;
+        register(new StartCommand("start", "Старт"));
     }
     @Override
     public String getBotUsername() {
         return BOT_NAME;
+    }
+
+    @Override
+    public void processNonCommandUpdate(Update update) {
+
     }
 
     @Override
@@ -31,13 +39,8 @@ public class Bot extends TelegramLongPollingBot {
         super.onRegister();
     }
 
-    @SneakyThrows
     @Override
-    public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()){
-            if (update.getMessage().getText().equals("/start")){
-                execute(new SendMessage().builder().chatId(update.getMessage().getChatId().toString()).text("Я бот, а ты тоже!").build());
-            }
-        }
+    public void onUpdatesReceived(List<Update> updates) {
+            super.onUpdatesReceived(updates);
     }
 }
