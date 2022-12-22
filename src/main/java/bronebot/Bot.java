@@ -1,7 +1,6 @@
 package bronebot;
 
 import bronebot.command.StartCommand;
-import lombok.Getter;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
